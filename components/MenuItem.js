@@ -5,18 +5,19 @@ function MenuItem(props) {
   // Keep track of quantity
   const [quantity, setQuantity] = useState(0);
   // TODO (part 3): add state for special instructions text
+  const [specialInstructions, setSpecialInstructions] = useState("");
 
   // Return JSX to render
   return (
     <View style={styles.container}>
       <View style={styles.photoContainer}>
         <Image
-          source={require("../assets/placeholder-image.png")}
+          source={props.imageSource}
           style={styles.photo}
         />
       </View>
-      <Text style={{ fontWeight: "bold" }}>{"FOOD NAME"}</Text>
-      <Text>Price: ${1000}</Text>
+      <Text style={{ fontWeight: "bold" }}>{props.name}</Text>
+      <Text>Price: ${props.price}</Text>
       <Text>Quantity: {quantity}</Text>
       <View style={styles.buttonsContainer}>
         <Button
@@ -25,6 +26,9 @@ function MenuItem(props) {
             console.log("minus pressed");
             // TODO (part 2): decrease quantity by 1
             // watch out for negative quantity
+            if(quantity > 0) {
+              setQuantity(quantity-1);
+            }
           }}
         />
         <Button
@@ -32,15 +36,17 @@ function MenuItem(props) {
           onPress={() => {
             console.log("plus pressed");
             // TODO (part 2): increase quantity by 1
+            setQuantity(quantity+1);
           }}
         />
       </View>
-      <Text>Special Instructions: {null}</Text>
+      <Text>Special Instructions: {specialInstructions}</Text>
       <TextInput
         placeholder="Type instructions here"
         onSubmitEditing={({ nativeEvent, currentTarget }) => {
           console.log(nativeEvent.text);
           // TODO (part 3): Update special instructions text
+          setSpecialInstructions(nativeEvent.text)
           currentTarget.clear();
         }}
       />
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    backgroundColor: "#fff",
+    backgroundColor: "#f4dba5",
     alignItems: "center",
     justifyContent: "space-between",
     borderStyle: "solid",
